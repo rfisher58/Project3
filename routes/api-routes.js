@@ -1,6 +1,14 @@
-const User = require('./models');
+const db = require('../models');
 
 module.exports = function (app) {
+
+  // app.get('/api/index', function(req, res) {
+  //   res.sendFile(path.join(__dirname, '../client/public/index.html'), function(err) {
+  //     if (err) {
+  //       res.status(500).send(err)
+  //     }
+  //   })
+  // })
 
     app.get('/api/users', function (req, res) {
       User.find({})
