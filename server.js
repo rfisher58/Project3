@@ -2,20 +2,33 @@ const express = require("express");
 
 const mongoose = require("mongoose");
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
+const passport = require('passport')
+const cors = require("cors");
 
+
+app.use(cors());
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+require("./auth/auth.js")(passport)
+// initilize passwport
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
 }
 
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
+
 // Add routes, both API and view
 require('./routes/api-routes')(app);
-
+require('./routes/auth-routes')(app);
 // Connect to the Mongo DB
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactNotes");
 
@@ -23,3 +36,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactNotes");
 app.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
+
+
+
+

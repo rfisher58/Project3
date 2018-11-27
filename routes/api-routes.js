@@ -10,6 +10,9 @@ module.exports = function (app) {
   //   })
   // })
 
+// Routes for github authentication
+
+
     app.get('/api/users', function (req, res) {
       User.find({})
         .then(function (data) {
