@@ -12,6 +12,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import FormDialog from '../dialog/dialog.js';
+
 
 const styles = {
   root: {
@@ -26,8 +28,9 @@ const styles = {
   },
 };
 
+// display and hide modal function
 
-class MenuAppBar extends React.Component {
+class NavBar extends React.Component {
   state = {
     auth: true,
     anchorEl: null,
@@ -62,12 +65,14 @@ class MenuAppBar extends React.Component {
             </Typography>
             {auth && (
               <div>
+                <div>
+                  <FormDialog />
+                </div>
                 <IconButton
                   aria-owns={open ? 'menu-appbar' : undefined}
                   aria-haspopup="true"
                   onClick={this.handleMenu}
-                  color="inherit"
-                >
+                  color="inherit">
                   <AccountCircle />
                 </IconButton>
                 <Menu
@@ -96,8 +101,8 @@ class MenuAppBar extends React.Component {
   }
 }
 
-MenuAppBar.propTypes = {
+NavBar.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MenuAppBar);
+export default withStyles(styles)(NavBar);

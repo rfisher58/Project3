@@ -1,4 +1,5 @@
 const db = require('../models');
+const express = require('express');
 
 module.exports = function (app) {
 
@@ -14,7 +15,7 @@ module.exports = function (app) {
 
 
     app.get('/api/users', function (req, res) {
-      User.find({})
+      db.User.find({})
         .then(function (data) {
           res.json(data);
         })
@@ -25,7 +26,7 @@ module.exports = function (app) {
   
   
     app.post('/api/users', function (req, res) {
-      User.create(req.body)
+      db.User.create(req.body)
         .then(function (data) {
           res.json(data);
         })
@@ -35,7 +36,7 @@ module.exports = function (app) {
     });
   
     app.put('/api/user/:id', function (req, res) {
-      User.findOneAndUpdate({_id: req.params.id}, req.body)
+      db.User.findOneAndUpdate({_id: req.params.id}, req.body)
         .then(function (data) {
           res.json(data);
         })
@@ -45,7 +46,7 @@ module.exports = function (app) {
     });
   
     app.delete('/api/users/:id', function (req, res) {
-      User.findOneAndDelete({_id: req.params.id})
+      db.User.findOneAndDelete({_id: req.params.id})
         .then(function (data) {
           res.json(data);
         })
