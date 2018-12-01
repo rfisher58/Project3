@@ -10,8 +10,10 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import LongMenu from '../language/language';
 import Axios from "axios";
+import NewCard from "../NewCards/NewCards"
+import "./edit.css";
 
-export default class FormDialog extends React.Component {
+export default class Edit extends React.Component {
   state = {
     open: false,
     title:"",
@@ -43,6 +45,7 @@ handleInputChange = event => {
   console.log(value);
 }
 
+// post bug to database
 postBug = event =>{
   event.preventDefault();
   console.log(this.state);
@@ -56,20 +59,34 @@ postBug = event =>{
       pay: null,
       languages: [],
     })
-    
   })
-
-
   this.handleClose();
+}
+
+
+// delete bug from data base
+deleteBug = event => {
+    let value = event.target.value;
+    let id = event.target.id;
+    Axios.delete('/api/bugs/`${id}`').then((response)=>{
+        console.log(response)
+    })
+    this.handleClose();
+}
+
+// edit bugs
+
+editBug = event => {
+
 }
 
 
   render() {
     return (
       <div>
-        <Fab onClick={this.handleClickOpen} color="primary" aria-label="Add">
+        {/* <Fab onClick={this.handleClickOpen} color="primary" aria-label="Add">
         <AddIcon />
-      </Fab>
+      </Fab> */}
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -151,9 +168,17 @@ postBug = event =>{
             <Button onClick={this.postBug} color="primary" >
               Post Bug
             </Button>
+            <Button onClick={this.deletBug} color="primary" >
+              Delete Bug
+            </Button>
           </DialogActions>
         </Dialog>
       </div>
     );
   }
 }
+
+
+
+
+

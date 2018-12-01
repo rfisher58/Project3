@@ -16,14 +16,14 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import Axios from 'axios';
+import { E2BIG } from 'constants';
+import Chip from '@material-ui/core/Chip';
 
 const styles = theme => ({
+
   card: {
     maxWidth: 400,
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
   },
   actions: {
     display: 'flex',
@@ -47,17 +47,98 @@ const styles = theme => ({
 });
 
 class NewCards extends React.Component {
-  state = { expanded: false };
+  state = { expanded: false, bugs:[]};
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
   };
 
+
+//   get data from the backend to render
+  componentDidMount (){
+    Axios.get('/api/bugs').then((response)=>{
+        console.log(response)
+        this.setState({
+            bugs: response.data
+        });
+    })
+  }
+
+
   render() {
     const { classes } = this.props;
 
     return (
-      <Card className={classes.card}>
+    <div>
+        {
+            this.state.bugs.map((bug,index)=>{
+                return(
+        <Card key={index + "bug"} className={classes.card}>
+            <CardHeader
+                avatar={
+                    <Avatar aria-label="Recipe" className={classes.avatar}>
+                    R
+                    </Avatar>
+                    }
+                action= {
+                        <IconButton>
+                            <MoreVertIcon />
+                        </IconButton>
+                    }
+                        title={bug.title}
+                        subheader="September 14, 2016"
+            />
+
+            <CardActions className={classes.actions} disableActionSpacing>
+            <Chip label={bug.languages} className={classes.chip} variant="outlined" />
+          <IconButton aria-label="Add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+          <IconButton aria-label="Share" href = {bug.link}>
+            <ShareIcon />
+          </IconButton>
+          <IconButton
+            className={classnames(classes.expand, {
+              [classes.expandOpen]: this.state.expanded,
+            })}
+            onClick={this.handleExpandClick}
+            aria-expanded={this.state.expanded}
+            aria-label="Show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+        <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography paragraph>Description</Typography>
+            <Typography paragraph>
+              {bug.description}
+            </Typography>
+          </CardContent>
+        </Collapse>
+        </Card>
+                )
+            })
+        }
+    </div>
+    );
+  }
+}
+
+NewCards.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(NewCards);
+
+
+
+
+
+
+
+
+/* <Card className={classes.card}>
         <CardHeader
           avatar={
             <Avatar aria-label="Recipe" className={classes.avatar}>
@@ -123,13 +204,10 @@ class NewCards extends React.Component {
             </Typography>
           </CardContent>
         </Collapse>
-      </Card>
-    );
-  }
-}
+      </Card> */
 
-NewCards.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
-export default withStyles(styles)(NewCards);
+
+
+
+    //   {this.props.edit ? <button id = "editButton">Edit</button>}

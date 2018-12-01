@@ -14,8 +14,8 @@ module.exports = function (app) {
 // Routes for github authentication
 
 
-    app.get('/api/users', function (req, res) {
-      db.User.find({})
+    app.get('/api/bugs', function (req, res) {
+      db.Bugs.find({})
         .then(function (data) {
           res.json(data);
         })
@@ -25,8 +25,9 @@ module.exports = function (app) {
     });
   
   
-    app.post('/api/users', function (req, res) {
-      db.User.create(req.body)
+    app.post('/api/bugs', function (req, res) {
+      console.log(req.body)
+      db.Bugs.create(req.body)
         .then(function (data) {
           res.json(data);
         })
@@ -35,8 +36,8 @@ module.exports = function (app) {
         });
     });
   
-    app.put('/api/user/:id', function (req, res) {
-      db.User.findOneAndUpdate({_id: req.params.id}, req.body)
+    app.put('/api/bugs/:id', function (req, res) {
+      db.Bugs.findOneAndUpdate({_id: req.params.id}, req.body)
         .then(function (data) {
           res.json(data);
         })
@@ -45,8 +46,8 @@ module.exports = function (app) {
         });
     });
   
-    app.delete('/api/users/:id', function (req, res) {
-      db.User.findOneAndDelete({_id: req.params.id})
+    app.delete('/api/bugs/:id', function (req, res) {
+      db.Bugs.findOneAndDelete({_id: req.params.id})
         .then(function (data) {
           res.json(data);
         })

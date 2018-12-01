@@ -3,6 +3,7 @@ import Navbar from "../../navbar/navbar";
 import NavBar from "../../dialog/dialog";
 import NewCards from "../../NewCards/NewCards";
 import Grid from '@material-ui/core/Grid';
+import Edit from "../../edit/edit";
 
 
 
@@ -22,7 +23,7 @@ class App extends Component {
          <div className = "MenuAppBar"><Navbar /></div>
          <Grid container spacing = {24}>
          <Grid item xs = {3}>
-        <NewCards edit = "false" />
+        <Edit />
         </Grid>
         </Grid>
         </div>
@@ -30,7 +31,3 @@ class App extends Component {
     }
   }
   export default App;
-
-
-
- 
