@@ -1,20 +1,29 @@
-const db = require('../models');
-const passport = require("passport");
+module.exports = (app, passport) => {
 
-module.exports = (app) => {
+  // app.get('/auth/github',
+  // passport.authenticate('github', { scope: [ 'user:email' ] }),
+  // function(req, res){
+  //   // The request will be redirected to GitHub for authentication, so this
+  //   // function will not be called.
+  // });
+  app.get('/auth/github',
+  passport.authenticate('github', { scope: [ 'user:email' ] }),
+  function(req, res){
+    // The request will be redirected to GitHub for authentication, so this
+    // function will not be called.
+  });
 
-app.get('/auth/github', passport.authenticate("github"), function(req,res){
-  console.log("lol");
-  res.json("hello world")
+// GET /auth/github/callback
+//   Use passport.authenticate() as route middleware to authenticate the
+//   request.  If authentication fails, the user will be redirected back to the
+//   login page.  Otherwise, the primary route function will be called,
+//   which, in this example, will redirect the user to the home page.
+app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.json(req.user)
 });
 
-app.get('/auth/github/callback', 
-passport.authenticate('github', { failureRedirect: '/login'}),
-  function(req, res) {
-// Successful authentication, redirect home.
-console.log("lol lol lol ")
-   res.redirect('/');
-  });
 
   app.get('/api/users/me',
   passport.authenticate('basic', { session: false }),

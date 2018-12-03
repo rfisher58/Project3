@@ -17,7 +17,8 @@ module.exports = function (app) {
     app.get('/api/bugs', function (req, res) {
       db.Bugs.find({})
         .then(function (data) {
-          res.json(data);
+          console.log(req.user, "user")
+          res.json({user:req.user, data:data});
         })
         .catch(function (err) {
           res.json(err);

@@ -12,6 +12,12 @@ import LongMenu from '../language/language';
 import Axios from "axios";
 import NewCard from "../NewCards/NewCards"
 import "./edit.css";
+import Icon from '@material-ui/core/Icon';
+import { withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
+
+
+
 
 export default class Edit extends React.Component {
   state = {
@@ -24,7 +30,6 @@ export default class Edit extends React.Component {
     languages: [],
 
   };
-
   handleClickOpen = () => {
     this.setState({ open: true });
   };
@@ -35,7 +40,17 @@ export default class Edit extends React.Component {
 
 
 // Methods
-
+componentDidMount(){
+  console.log(this.props)
+  this.setState({
+    title:this.props.bug.title,
+    description:this.props.bug.description,
+    link: this.props.bug.link,
+    dueDate: this.props.bug.dueDate,
+    pay: this.props.bug.pay,
+    languages: this.props.languages,
+  })
+}
 handleInputChange = event => {
   let value = event.target.value;
   let name = event.target.name;
@@ -46,11 +61,10 @@ handleInputChange = event => {
 }
 
 // post bug to database
-postBug = event =>{
-  event.preventDefault();
+postBug = id =>{
   console.log(this.state);
 
-  Axios.post('/api/bugs', this.state).then((response)=>{
+  Axios.put(`/api/bugs/${id}`, this.state).then((response)=>{
     this.setState({
       title: "",
       description: "",
@@ -65,10 +79,9 @@ postBug = event =>{
 
 
 // delete bug from data base
-deleteBug = event => {
-    let value = event.target.value;
-    let id = event.target.id;
-    Axios.delete('/api/bugs/`${id}`').then((response)=>{
+deleteBug = id => {
+    console.log(id);
+    Axios.delete(`/api/bugs/${id}`).then((response)=>{
         console.log(response)
     })
     this.handleClose();
@@ -83,10 +96,13 @@ editBug = event => {
 
   render() {
     return (
+      
       <div>
-        {/* <Fab onClick={this.handleClickOpen} color="primary" aria-label="Add">
-        <AddIcon />
-      </Fab> */}
+         <Tooltip title="Edit Bug" aria-label="Add">
+          <Fab color="secondary" aria-label="Edit" onClick={this.handleClickOpen}>
+            <Icon>edit_icon</Icon>
+          </Fab>
+          </Tooltip>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -98,7 +114,7 @@ editBug = event => {
               Please fill out the below information 
             </DialogContentText>
             <TextField
-              value = {this.state.title}
+              defaultValue = {this.props.bug.title}
               name="title"
               autoFocus
               margin="dense"
@@ -109,7 +125,7 @@ editBug = event => {
               onChange = {this.handleInputChange}
             />
             <TextField
-              value = {this.state.description}
+              defaultValue = {this.props.bug.description}
               name="description"
               autoFocus
               margin="dense"
@@ -120,7 +136,7 @@ editBug = event => {
               onChange = {this.handleInputChange}
             />
             <TextField
-              value = {this.state.link}
+              defaultValue = {this.props.bug.link}
               name="link"
               autoFocus
               margin="dense"
@@ -131,7 +147,7 @@ editBug = event => {
               onChange = {this.handleInputChange}
             />
             <TextField
-              value = {this.state.dueDate}
+              defaultValue = {this.props.bug.dueDate}
               name="dueDate"
               id="dueDate"
               label="Due Date"
@@ -143,7 +159,7 @@ editBug = event => {
               onChange = {this.handleInputChange}
             />
             <TextField
-              value = {this.state.pay}
+              defaultValue = {this.props.bug.pay}
               name="pay"
               autoFocus
               margin="dense"
@@ -155,7 +171,7 @@ editBug = event => {
             />
             <div>
               <LongMenu
-              value = {this.state.languages}
+              defaultValue = {this.props.bug.languages}
               name="languages"
               onChange = {this.handleInputChange}
                />
@@ -165,10 +181,10 @@ editBug = event => {
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.postBug} color="primary" >
-              Post Bug
+            <Button onClick={(event) =>{ event.preventDefault(); this.postBug(this.props.bug._id)}} color="primary" >
+              Update Bug
             </Button>
-            <Button onClick={this.deletBug} color="primary" >
+            <Button onClick={(event) =>{ event.preventDefault(); this.deleteBug(this.props.bug._id)}} color="primary" >
               Delete Bug
             </Button>
           </DialogActions>

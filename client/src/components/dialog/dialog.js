@@ -10,6 +10,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import LongMenu from '../language/language';
 import Axios from "axios";
+import Tooltip from '@material-ui/core/Tooltip';
 
 export default class FormDialog extends React.Component {
   state = {
@@ -17,7 +18,7 @@ export default class FormDialog extends React.Component {
     title:"",
     description: "",
     link: "",
-    dueDate: Date,
+    dueDate: '',
     pay: "",
     languages: [],
 
@@ -67,9 +68,11 @@ postBug = event =>{
   render() {
     return (
       <div>
-        <Fab onClick={this.handleClickOpen} color="primary" aria-label="Add">
-        <AddIcon />
-      </Fab>
+        <Tooltip title="Create Bug" aria-label="Add">
+          <Fab onClick={this.handleClickOpen} color="primary" aria-label="Add">
+            <AddIcon />
+          </Fab>
+        </Tooltip>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -102,6 +105,7 @@ postBug = event =>{
               fullWidth
               onChange = {this.handleInputChange}
             />
+            
             <TextField
               value = {this.state.link}
               name="link"
@@ -113,18 +117,19 @@ postBug = event =>{
               fullWidth
               onChange = {this.handleInputChange}
             />
+          <form>
             <TextField
               value = {this.state.dueDate}
               name="dueDate"
-              id="dueDate"
+              id="date"
               label="Due Date"
               type="date"
-              defaultValue="2017-05-24"
+              onChange = {this.handleInputChange}
               InputLabelProps={{
                 shrink: true,
               }}
-              onChange = {this.handleInputChange}
             />
+            </form>
             <TextField
               value = {this.state.pay}
               name="pay"

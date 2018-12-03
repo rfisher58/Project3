@@ -13,6 +13,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import FormDialog from '../dialog/dialog.js';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 const styles = {
@@ -21,10 +22,6 @@ const styles = {
   },
   grow: {
     flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
   },
 };
 
@@ -56,26 +53,7 @@ class NavBar extends React.Component {
     return (
       <div className={classes.root}>
         <AppBar position="static">
-          <Toolbar>
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" color="inherit" className={classes.grow}>
-              SwattR
-            </Typography>
-            {auth && (
-              <div>
-                <div>
-                  <FormDialog />
-                </div>
-                <IconButton
-                  aria-owns={open ? 'menu-appbar' : undefined}
-                  aria-haspopup="true"
-                  onClick={this.handleMenu}
-                  color="inherit">
-                  <AccountCircle />
-                </IconButton>
-                <Menu
+        <Menu
                   id="menu-appbar"
                   anchorEl={anchorEl}
                   anchorOrigin={{
@@ -92,6 +70,27 @@ class NavBar extends React.Component {
                   <MenuItem onClick={this.handleClose}>Profile</MenuItem>
                   <MenuItem onClick={this.handleClose}>My account</MenuItem>
                 </Menu>
+          <Toolbar>
+           
+            <Typography variant="h6" color="inherit" className={classes.grow}>
+              SwattR
+            </Typography>
+            {auth && (
+              <div>
+                <div>
+                
+                    <FormDialog />
+                
+                </div>
+                <Tooltip title="Profile" aria-label="Add">
+                  <IconButton
+                    aria-owns={open ? 'menu-appbar' : undefined}
+                    aria-haspopup="true"
+                    onClick={this.handleMenu}
+                    color="inherit">
+                    <AccountCircle />
+                  </IconButton>
+                </Tooltip>
               </div>
             )}
           </Toolbar>

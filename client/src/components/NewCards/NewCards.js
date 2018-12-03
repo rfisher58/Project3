@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
@@ -19,12 +19,17 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Axios from 'axios';
 import { E2BIG } from 'constants';
 import Chip from '@material-ui/core/Chip';
+import Edit from "../edit/edit";
+import Grid from '@material-ui/core/Grid';
+import BugReport from '@material-ui/icons/BugReport';
+import { FormHelperText } from '@material-ui/core';
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 const styles = theme => ({
-
-  card: {
-    maxWidth: 400,
-  },
+  // root: {
+  //   flexGrow: 1,
+  // },
   actions: {
     display: 'flex',
   },
@@ -33,7 +38,7 @@ const styles = theme => ({
     transition: theme.transitions.create('transform', {
       duration: theme.transitions.duration.shortest,
     }),
-    marginLeft: 'auto',
+    marginLeft: "auto",
     [theme.breakpoints.up('sm')]: {
       marginRight: -8,
     },
@@ -46,84 +51,57 @@ const styles = theme => ({
   },
 });
 
-class NewCards extends React.Component {
-  state = { expanded: false, bugs:[]};
+class NewCards extends Component {
+  state = { expanded: false };
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
   };
-
-
-//   get data from the backend to render
-  componentDidMount (){
-    Axios.get('/api/bugs').then((response)=>{
-        console.log(response)
-        this.setState({
-            bugs: response.data
-        });
-    })
-  }
-
-
   render() {
-    const { classes } = this.props;
-
     return (
-    <div>
-        {
-            this.state.bugs.map((bug,index)=>{
-                return(
-        <Card key={index + "bug"} className={classes.card}>
-            <CardHeader
-                avatar={
-                    <Avatar aria-label="Recipe" className={classes.avatar}>
-                    R
-                    </Avatar>
-                    }
-                action= {
-                        <IconButton>
-                            <MoreVertIcon />
-                        </IconButton>
-                    }
-                        title={bug.title}
-                        subheader="September 14, 2016"
-            />
-
-            <CardActions className={classes.actions} disableActionSpacing>
-            <Chip label={bug.languages} className={classes.chip} variant="outlined" />
-          <IconButton aria-label="Add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="Share" href = {bug.link}>
-            <ShareIcon />
-          </IconButton>
-          <IconButton
-            className={classnames(classes.expand, {
-              [classes.expandOpen]: this.state.expanded,
-            })}
-            onClick={this.handleExpandClick}
-            aria-expanded={this.state.expanded}
-            aria-label="Show more"
-          >
-            <ExpandMoreIcon />
-          </IconButton>
-        </CardActions>
-        <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Typography paragraph>Description</Typography>
-            <Typography paragraph>
-              {bug.description}
-            </Typography>
-          </CardContent>
-        </Collapse>
+      <Grid item xs={12} sm={4}>
+        <Card   style = {{margin: 20, padding:0}}>
+          <CardHeader
+            avatar={
+              <i class="material-icons">
+                bug_report
+              </i>
+            }
+            title={this.props.bug.title}
+            subheader="September 14, 2016"
+          />
+          <CardActions disableActionSpacing>
+            <IconButton aria-label="Add to favorites">
+              <Edit bug={this.props.bug} />
+            </IconButton>
+            <Tooltip title="See Code" aria-label="Add">
+              <IconButton aria-label="Share" href={this.props.bug.link}>
+                <ShareIcon />
+              </IconButton>
+              </Tooltip>
+              <Typography>
+                ${this.props.bug.pay}
+              </Typography>
+                <IconButton
+                  onClick={this.handleExpandClick}
+                  aria-label="Show more"
+                >
+                  <ExpandMoreIcon />
+                </IconButton>
+          </CardActions>
+          <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
+            <CardContent>
+              <Typography paragraph>Description</Typography>
+              <Typography paragraph>
+                {this.props.bug.description}
+              </Typography>
+            </CardContent>
+          </Collapse>
         </Card>
-                )
-            })
-        }
-    </div>
-    );
+      </Grid>
+    )
   }
-}
+  }
 
 NewCards.propTypes = {
   classes: PropTypes.object.isRequired,

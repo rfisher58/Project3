@@ -2,12 +2,13 @@ const express = require("express");
 
 const mongoose = require("mongoose");
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 const passport = require('passport')
 const cors = require("cors");
-
+const morgan = require('morgan')
 
 app.use(cors());
+app.use(morgan());
 // Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -28,7 +29,7 @@ app.all('/*', function(req, res, next) {
 
 // Add routes, both API and view
 require('./routes/api-routes')(app);
-require('./routes/auth-routes')(app);
+require("./routes/auth-routes")(app, passport);
 // Connect to the Mongo DB
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactNotes");
 

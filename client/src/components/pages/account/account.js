@@ -7,7 +7,7 @@ import Edit from "../../edit/edit";
 
 
 
-class App extends Component {
+class Account extends Component {
 
   
   // methods
@@ -23,11 +23,11 @@ class App extends Component {
          <div className = "MenuAppBar"><Navbar /></div>
          <Grid container spacing = {24}>
          <Grid item xs = {3}>
-        <Edit />
+        <NewCards />
         </Grid>
         </Grid>
         </div>
       );
     }
   }
-  export default App;
+  export default Account;
