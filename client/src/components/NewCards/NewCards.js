@@ -68,7 +68,7 @@ class NewCards extends Component {
               </i>
             }
             title={this.props.bug.title}
-            subheader="September 14, 2016"
+            subheader= {"Due:" + " " + this.props.bug.dueDate}
           />
           <CardActions disableActionSpacing>
             <IconButton aria-label="Add to favorites">
@@ -95,6 +95,7 @@ class NewCards extends Component {
               <Typography paragraph>
                 {this.props.bug.description}
               </Typography>
+              
             </CardContent>
           </Collapse>
         </Card>

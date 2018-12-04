@@ -31,8 +31,8 @@ class App extends Component {
     Axios.get('/api/bugs').then((response) => {
       console.log(response)
       this.setState({
-        bugs: response.data.data
-      });
+        bugs:response.data
+      })
     })
   }
 
@@ -43,7 +43,7 @@ class App extends Component {
        
          <div className = "MenuAppBar"><Navbar /></div>
          <Grid container spacing = {24}>
-         {
+         { 
            this.state.bugs.map((bug, index) => {
                 return (
                   
@@ -51,7 +51,7 @@ class App extends Component {
                   
                 )
            })
-         }
+          }
         </Grid>
         </div>
       );

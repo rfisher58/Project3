@@ -18,7 +18,7 @@ export default class FormDialog extends React.Component {
     title:"",
     description: "",
     link: "",
-    dueDate: '',
+    dueDate:"",
     pay: "",
     languages: [],
 
@@ -34,6 +34,12 @@ export default class FormDialog extends React.Component {
 
 
 // Methods
+
+handleDateChange = (event, date) =>{
+ this.setState ({
+   dueDate: date
+ })
+}
 
 handleInputChange = event => {
   let value = event.target.value;
@@ -53,7 +59,7 @@ postBug = event =>{
       title: "",
       description: "",
       link: "",
-      dueDate: Date,
+      dueDate: null,
       pay: null,
       languages: [],
     })
@@ -124,7 +130,7 @@ postBug = event =>{
               id="date"
               label="Due Date"
               type="date"
-              onChange = {this.handleInputChange}
+              onChange = {this.handleDateChange}
               InputLabelProps={{
                 shrink: true,
               }}

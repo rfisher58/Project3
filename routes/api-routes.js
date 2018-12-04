@@ -18,7 +18,7 @@ module.exports = function (app) {
       db.Bugs.find({})
         .then(function (data) {
           console.log(req.user, "user")
-          res.json({user:req.user, data:data});
+          res.json(data);
         })
         .catch(function (err) {
           res.json(err);
