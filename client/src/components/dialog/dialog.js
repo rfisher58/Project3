@@ -41,6 +41,15 @@ handleDateChange = (event, date) =>{
  })
 }
 
+// handleLangChange = (click) => {
+//   let value = click.target.value;
+//   let name = click.target.name;
+//   this.setState({
+//     languages.push
+//   })
+//   console.log(value);
+// }
+
 handleInputChange = event => {
   let value = event.target.value;
   let name = event.target.name;
@@ -149,9 +158,9 @@ postBug = event =>{
             />
             <div>
               <LongMenu
-              value = {this.state.languages}
-              name="languages"
-              onChange = {this.handleInputChange}
+              // value = {this.props.name}
+              // name="languages"
+              // onClick = {this.handleLangChange}
                />
             </div>
           </DialogContent>

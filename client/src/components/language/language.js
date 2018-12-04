@@ -75,6 +75,12 @@ class MultipleSelect extends React.Component {
     this.setState({ name: event.target.value });
   };
 
+  handleClick = event => {
+    let value = event.target.value;
+    this.state.name.push(value);
+    console.log(value);
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -104,6 +110,7 @@ class MultipleSelect extends React.Component {
               </MenuItem>
             ))}
           </Select>
+          
         </FormControl>
       </div>
     );
